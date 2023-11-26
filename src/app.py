@@ -99,6 +99,17 @@ def get_one_planet(planet_id):
     serialized_planet = planet.serialize()
     return serialized_planet, 200
 
+@app.route('/planet/<int:planet_id>', methods=['DELETE'])
+def delete_planet_id(planet_id):
+    planet = Planet.query.get(planet_id)     
+    if planet:
+        db.session.delete(planet)
+        db.session.commit()        
+        return jsonify({"msg":"Planeta borrado" , "del_planet": delete_planet_id}), 200              
+    else:
+        return jsonify({'error': 'Planet not found to delete'}), 400
+    
+
 @app.route('/films', methods=['GET'])
 def get_all_films():
     films = Films.query.all()
